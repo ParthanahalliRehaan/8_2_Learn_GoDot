@@ -1,108 +1,71 @@
-# What should be the folder structure of 2D Action-Adventure Game?
-Designing a clean folder structure for a 2D game in Godot is crucial for scalability. Here's a practical, battle-tested approach:
+# Doubt 1: **What should be the folder structure**, For any 2D game the structure should be as below,
+  - 1 GDD
+  - 2 BlackOut(Beta version of game without visuals)
+  - 3 Art Animation & Music
+  - 4 Level Design & UI UX
+  - 5 Testing & Marketing
+# History of Jams!
+## 🌐 Key Game Jam Platforms (Online vs. Offline)
+### 🧩 Indie Game Jam (Historical)  
+- **Founded**: March 2002 by Chris Hecker & Sean Barrett.  
+- **Type**: **Offline** — small invite-only gatherings.  
+- **Format**: Experimental, engine-driven challenges.  
+- **Scale**: Dozens of participants.  
+- **Address (historical)**: Early events were held in California, USA (Bay Area developer meetups).  
+- **Reference**: [Wikipedia](https://en.wikipedia.org/wiki/Game_jam)  
 
-## Recommended Folder Structure
+---
 
-```
-res://
-├── addons/                    # Third-party plugins
-├── assets/                    # Raw game assets (never edit directly)
-│   ├── audio/
-│   ├── fonts/
-│   ├── images/
-│   ├── tilesets/
-│   └── shaders/
-├── autoload/                  # Singletons (global scripts)
-│   ├── game_manager.gd
-│   └── audio_manager.gd
-├── resources/                 # Custom Resource definitions
-│   ├── item_data.gd
-│   └── enemy_stats.gd
-├── scenes/                    # All .tscn files
-│   ├── characters/
-│   │   ├── player/
-│   │   │   ├── player.tscn
-│   │   │   └── player.gd
-│   │   └── enemies/
-│   │       ├── slime.tscn
-│   │       └── slime.gd
-│   ├── levels/
-│   │   ├── level_1.tscn
-│   ├── ui/
-│   │   ├── hud.tscn
-│   │   ├── main_menu.tscn
-│   │   └── pause_menu.tscn
-│   └── props/
-│       ├── coin.tscn
-│       └── platform.tscn
-├── scripts/                   # Shared/reusable scripts
-│   ├── state_machine.gd
-│   └── utils.gd
-├── tests/                     # Unit/integration tests
-└── project.godot
-```
+### 🎮 Ludum Dare  
+- **Founded**: April 2002  
+- **Type**: **Online** — fully web-based, no physical sites.  
+- **Format**: Solo (Compo, 48h) or team (Jam, 72h).  
+- **Community**: Thousands of entries per event.  
+- **Link**: [https://ldjam.com](https://ldjam.com)  
 
-## Key Principles
+---
 
-1. **Co-locate scenes and scripts**: Keep `.gd` files next to their `.tscn` files (Godot makes this easy with "Make Unique" and relative paths). This prevents hunting across folders.
+### 🌍 Global Game Jam  
+- **Founded**: 2009 (inspired by Nordic Game Jam, 2006).  
+- **Type**: **Offline + Online hybrid** — local sites host in-person jams, but coordination and submission are online.  
+- **Format**: Worldwide, simultaneous 48h jam.  
+- **Scale**: Guinness record holder — tens of thousands of participants.  
+- **Link**: [https://globalgamejam.org](https://globalgamejam.org)  
+- **Offline Sites**: Hosted at universities, coworking spaces, and studios worldwide (e.g., MIT Game Lab in Cambridge, MA; Aalto University in Helsinki; etc.).  
 
-2. **Separate `assets/` from `scenes/`**: `assets/` holds source files (PNG, WAV) that you might re-export; `scenes/` holds the actual game objects that reference them.
+---
 
-3. **Use `autoload/` sparingly**: Only true globals (save system, audio, scene transition). Too many singletons create hidden dependencies.
+### 🕹️ itch.io Jams  
+- **Founded**: Mid-2010s  
+- **Type**: **Online** — anyone can host or join via itch.io.  
+- **Format**: Flexible — from 24h sprints to month-long jams.  
+- **Scale**: Thousands of small and large jams, highly diverse.  
+- **Link**: [https://itch.io/jams](https://itch.io/jams)  
 
-4. **Group by function, not type**: `scenes/characters/player/` is better than dumping all scripts in `scripts/` and all scenes in `scenes/`.
+---
 
-## Scene Organization Tips
+## 📊 Comparison Table (Online vs. Offline)
 
-- **Composition over inheritance**: Use nodes as building blocks. A player scene might contain:
-  ```
-  Player (CharacterBody2D)
-  ├── Sprite2D
-  ├── CollisionShape2D
-  ├── StateMachine (Node)
-  ├── Hitbox (Area2D)
-  └── Camera2D
-  ```
+| Platform          | Founded | Type            | Format                  | Scale/Reach | Link/Address |
+|-------------------|---------|-----------------|-------------------------|-------------|--------------|
+| Ludum Dare        | 2002    | Online          | Solo/team, 48–72h       | Thousands   | [ldjam.com](https://ldjam.com) |
+| Global Game Jam   | 2009    | Hybrid (Offline sites + Online hub) | Worldwide, local sites | Tens of thousands | [globalgamejam.org](https://globalgamejam.org), local universities & labs |
+| itch.io Jams      | ~2015   | Online          | Open-hosted, flexible   | Thousands of jams | [itch.io/jams](https://itch.io/jams) |
+| Indie Game Jam    | 2002    | Offline         | Experimental, invite-only | Dozens (historical) | Bay Area, California (archived) |
 
-- **Use `class_name` for shared logic**:
-  ```gdscript
-  # scripts/entity.gd
-  class_name Entity
-  extends CharacterBody2D
-  
-  @export var health: int = 100
-  ```
+---
 
-- **Signals for decoupling**: Avoid direct node references across scenes. Use signals or the Event Bus pattern via an autoload.
+## 🌟 Famous Games Born from Jams
 
-## Common Mistakes to Avoid
+- **Ludum Dare**: *Minecraft* (prototype roots), *Celeste Classic* → *Celeste*.  
+- **Global Game Jam**: *Surgeon Simulator*, *Keep Talking and Nobody Explodes*.  
+- **itch.io Jams**: *Superhot* (7DFPS Jam).  
+- **Indie Game Jam**: More experimental prototypes, influential but not commercial hits.  
 
-| Bad Practice | Better Alternative |
-|---|---|
-| Flat structure with 50+ files in root | Nest logically by feature |
-| Absolute paths in `get_node()` | Unique names (`%NodeName`) or exported NodePaths |
-| Mixing WIP assets with final assets | `assets/_wip/` subfolder or separate project |
-| Giant scripts with 500+ lines | Break into smaller scripts or state machines |
+---
 
-## Quick Start Template
-
-If you want a minimal viable structure for a platformer:
-
-```
-res://
-├── autoload/
-│   └── game.gd
-├── assets/
-│   ├── sprites/
-│   └── sfx/
-├── scenes/
-│   ├── player/
-│   │   ├── player.tscn
-│   │   └── player.gd
-│   ├── enemies/
-│   ├── levels/
-│   └── ui/
-└── project.godot
-```
-
-# What should be the folder structure of GDD?, Mentioned in Jargons/day0!
+✅ **Enhanced Summary**:  
+- **Offline roots**: Indie Game Jam (2002) and Nordic Game Jam (2006) emphasized physical gatherings.  
+- **Online breakthrough**: Ludum Dare (2002) proved jams could thrive entirely online.  
+- **Global hybrid**: Global Game Jam (2009) scaled jams worldwide with offline sites + online coordination.  
+- **Democratization**: itch.io (2010s) made jam hosting accessible to anyone online.  

@@ -46,3 +46,11 @@
 | **D1** — What is `extends Node`, `extends Resource`, etc.? | `extends` declares what **base class** your script inherits from — `Node` for scene-tree objects, `Resource` for data containers, `CharacterBody2D` for physics-driven 2D actors — each giving different built-in behavior. |
 | **D2** — What is a signal practically? | A signal is **decoupled communication**: when something happens (e.g., player takes damage), the source node `emit`s a signal, and any connected node runs its callback without the source knowing who listens. |
 | **D3** — What is `CharacterBody2D`? | `CharacterBody2D` is a specialized **Node class** designed for player/NPC movement with built-in collision response, gravity handling, and `move_and_slide()` — essentially a "pre-built character controller plugin." |
+
+## Doubt 5: Mesh Vs Sprite
+- **Sprite**: A single 2D image (like a flat picture). Even if you stack many sprites together, they’re still just flat images. They don’t form true 3D geometry.
+- **Mesh**: A collection of **vertices (points in 3D space)** connected by edges and faces. This creates a 3D shape that can be lit, shaded, and rotated realistically.
+
+👉 Think of it this way:
+- A **sprite sheet** (collection of sprites) is like a comic strip: multiple flat pictures side by side.
+- A **mesh** is like a sculpture: actual 3D geometry that exists in space.
