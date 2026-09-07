@@ -1,9 +1,10 @@
 # Dont Worry/
   - The below information isn't about 3D!
-
+# Answer before GDD
+1. Is the project too Big(No. of mechanics & features), too Decorative(No. of assets & environment)? Yes, make it small!
+2. No. of Days to complete?
 # 2D Game development Workflow/
 ```
-
 └── 📂 GameDesignDocument(GDD)/
 │   ├── Game_Overview.md
 │   │   ├── Name & Title
