@@ -10,8 +10,8 @@
 ### Doubt 2: What are FileSystem Dock, Node, Scene, and can we change the main scene?
 **Solution:**  
 - **FileSystem Dock** → Shows your project folder structure (`res://`). Works like a file explorer inside Godot.  
-- **Node** → Smallest building block. Each Node has one job (e.g., `Sprite2D` shows an image, `CollisionShape2D` defines a hitbox).  
-- **Scene** → A tree of Nodes saved as `.tscn`. Reusable and composable.  
+- **Node** → Smallest building block. Each Node has one job (e.g., `Sprite2D` shows an image, `CollisionShape2D` defines a hitbox). There is only one root node for all the scenes.  
+- **Scene** → A tree of Nodes saved as `.tscn`. Reusable and composable. There can be multiple scenes, but there is only one main scence!
 - **Main Scene** → Yes, you can change it anytime. Set it in **Project → Project Settings → Application → Run → Main Scene**.
 
 ---

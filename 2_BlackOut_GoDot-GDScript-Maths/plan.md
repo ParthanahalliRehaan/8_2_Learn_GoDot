@@ -23,8 +23,9 @@
 │       ├── remaining.txt
 │       └── project.godot
 │
-└── Project_Setup.md
+└── Project_Setup_Checklist.md
     ├── Scale Definition (world units → pixels, player size in px, arena bounds)
     ├── Viewport & Window (resolution, stretch mode, aspect)
     ├── Main Scene assignment (Project Settings → Application → Run → Main Scene)
     └── Physics/Input map basics needed for BlackOut only
+    .....
