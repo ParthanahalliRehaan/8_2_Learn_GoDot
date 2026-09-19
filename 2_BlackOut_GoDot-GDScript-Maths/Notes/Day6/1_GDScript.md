@@ -39,7 +39,7 @@ Now, behind the wall, each switch is wired to a **different-sized battery**, and
 
 **Only if you stop clicking boxes and start writing code instead.** If you write:
 ```gdscript
-hitbox.collision_layer = 8
+hitbox.collision_layer = """But if you want two layers to be switched on its 8 | 4"""
 ```
 ...that line, in code, means exactly the same thing as checking the box labeled "4" in the Inspector. Same switch, same result — just two different ways of flipping it. The Inspector lets you say "flip switch 4" by clicking. Code makes you say "set the hidden total to 8" by typing the number directly.
 
