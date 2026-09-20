@@ -1,44 +1,71 @@
-## 🔤 GDScript — functions & concepts used today
+## 🔤 GDScript — functions & concepts
 
-**`add_to_group(group_name: String)`**
-Instance method, called on `self` inside a script (e.g. `add_to_group("players")` in `player.gd`'s `_ready()`). Tags *this specific node* with an arbitrary string label. Takes exactly one argument — a `String`, nothing else. Doesn't return anything. You can call it multiple times with different strings to put one node in several groups at once.
+**`preload(path) -> Resource`**
+Resolves and loads a resource **at compile time** (when the script parses). `var enemy_scene: PackedScene = preload("res://scenes/enemy/Enemy.tscn")` — cached instantly, no runtime cost per use.
 
-**`get_tree().get_nodes_in_group(group_name: String) -> Array`**
-`get_tree()` returns the `SceneTree` — the object that manages every node currently active in the running game. `.get_nodes_in_group("players")` asks it for every node anywhere that's been tagged with that exact string via `add_to_group()`. Returns an `Array` — empty if no matches, never `null` itself (the array can just have zero elements). This is why checking `.is_empty()` matters more than checking for `null` here.
-
-**Why groups matched incorrectly earlier:** the string passed to `add_to_group()` and the string passed to `get_nodes_in_group()` must be character-for-character identical — same case, same spelling, same plural/singular. Godot does zero validation or fuzzy-matching; a mismatched string just silently returns an empty array, no error thrown. That silence is the actual danger — it fails quietly instead of loudly.
-
-**`abs(value)`**
-Built-in global function (not a method on a specific type — you call it as `abs(x)`, not `x.abs()`). Returns the magnitude of a number, stripping the sign: `abs(-7) == 7`, `abs(7) == 7`. Works on both `int` and `float`. You needed this because `target.global_position.x - global_position.x` gives a *signed* difference (negative if target is to the left), but "how far apart" should only care about magnitude.
-
-**`preload(path: String)` vs `load(path: String)`**
-Both return the actual `Resource` at that path (a `PackedScene`, in our case). `preload` resolves **at parse time** — before the game even runs, baked in when the script compiles — so it's instant and cached. `load` resolves **at the moment that line executes**, useful only when the path itself needs to be computed dynamically at runtime. We used `preload` throughout since `Enemy.tscn`'s path never changes.
-
-**`instantiate()`**
-Called on a loaded `PackedScene` (what `preload`/`load` gave you): `EnemyScene.instantiate()`. Builds an actual live `Node` (and its full child hierarchy) from that scene's blueprint, in memory — but it is *not yet part of the running game* until you separately call `add_child()` on it.
+**`.instantiate() -> Node`**
+Called on a loaded `PackedScene`. Builds a live `Node` (and its children) from the scene blueprint, in memory — not yet part of the running game.
 
 **`add_child(node: Node)`**
-Instance method — attaches the given node as a child of whatever node called it (`self`). This is the exact moment the new node officially enters the `SceneTree`, and critically, the exact moment `_ready()` fires on it and any of its children. Everything about ordering-sensitivity (enemy_type, groups, etc.) traces back to this one fact.
+Attaches a node as a child of whoever calls it. This is the exact moment `_ready()` fires on the new node and its children — which is why `enemy.enemy_type = randi_range(0, 1)` has to happen **before** this call, not after.
 
-**`enum` and `match`**
-`enum EnemyType { RATTLESNAKE, SAHARAN_VIPER }` declares a small closed set of named integer constants. `match enemy_type:` with branches like `EnemyType.RATTLESNAKE:` is GDScript's switch-statement equivalent — cleaner than chained `if/elif` when branching on one variable's possible values.
+**`enum` + `match`**
+`enum EnemyType { RATTLESNAKE, SAHARAN_VIPER }` — a closed set of named integer constants, referred to by name not number. `match enemy_type:` with per-value branches is GDScript's switch-statement equivalent.
 
-**`if / else` vs `if ... return` — the resume-checking distinction**
-`_physics_process(delta)` runs fresh, every single physics frame, unconditionally, from the top. An `if x_distance >= 5: return` pattern *skips the rest of that frame's logic* but re-evaluates from scratch next frame — it is **not** a permanent state change, so it self-corrects automatically as distance changes. This only breaks if you introduce a persistent flag (like `is_stopped = true`) that never gets reset — we deliberately avoided that trap by using `if/else` to set `velocity.x` directly rather than `return`ing early, so gravity (`move_and_slide()`) still runs every frame regardless of chase state.
+**Groups — `add_to_group()` / `get_nodes_in_group()`**
+Not a keyword or type — an arbitrary string tag. `add_to_group("players")` (must be inside `_ready()`, on the Player script) tags a node; `get_tree().get_nodes_in_group("players")` returns every node currently carrying that exact string. Zero validation between the two calls — a mismatched string just silently returns an empty array.
 
-## 🎮 Godot — engine concepts used today
+**`abs(value)`**
+Global function, not a method — `abs(x)`, not `x.abs()`. Strips sign: `abs(-7) == 7`. Used because position subtraction gives a *signed* difference; "how far apart" only cares about magnitude.
 
-**Groups**
-A pure tagging system, nothing more. A "group" isn't a node type, a class, or anything Godot tracks semantically — it's a text label you invent, stuck onto nodes via `add_to_group()`, queried via `get_nodes_in_group()`. Godot has zero built-in groups; every one you use (`"players"`, `"enemies"`, whatever) is something you made up and must spell consistently everywhere.
+**`randi_range(a, b)` / `randf_range(a, b)`**
+Random integer / random float, inclusive range. Used for `enemy_type` selection and spawn position variance.
 
-**`_ready()` timing relative to `add_child()`**
-`_ready()` is a lifecycle callback the engine calls automatically the instant a node (and its children) enter the `SceneTree` — which happens *during* the `add_child()` call, before that line of your calling code even finishes. Practical consequence: any property your `_ready()` logic depends on (like `enemy_type` driving a `match` statement) must be set **before** `add_child()`, or `_ready()` will have already run against whatever default value the variable had.
+**`queue_free()`**
+Doesn't delete instantly — schedules the node for removal from the tree and memory cleanup at the **end of the current frame**, once it's safe. Once freed: stops rendering, stops running `_physics_process()`, stops colliding, gone from the tree entirely.
+
+**Dictionaries as input schemes**
+`player1.input_source = { "left": "p1_left", "right": "p1_right", ... }` — key→value pairs, keys are your internal action names, values are the actual Input Map action strings. This is the Day 2 `input_source` pattern applied per-instance in `main.gd`, letting one shared `player.gd` script drive two differently-controlled Players.
+
+**`@onready`**
+`@onready var shared_camera: Camera2D = $SharedCamera` — delays this assignment until the node tree (including `SharedCamera`) actually exists, instead of running at script-parse time before the tree is built. Needed anywhere you reference a sibling/child node via `$NodePath`.
+
+**`lerp(from, to, weight)`**
+Linearly interpolates between two values. `lerp(min_zoom, max_zoom_out, t)` — when `t = 0`, result is `min_zoom`; when `t = 1`, result is `max_zoom_out`; anywhere between, it's a proportional blend. Here, `t` itself comes from `clamp(distance / max_distance, 0.0, 1.0)` — distance turned into a 0–1 "how close to max" ratio, which then drives how far along the `min_zoom`→`max_zoom_out` range the camera's zoom should sit.
+
+**`clamp(value, min, max)`**
+Forces a value to stay within a range — anything below `min` becomes `min`, above `max` becomes `max`. Used here to guarantee `t` never exceeds `1.0` even if two players somehow get further apart than `max_distance`.
+
+## 🎮 Godot (engine & editor concepts)
+
+**Timer node**
+`wait_time`, `autostart`, `one_shot` (false = repeats), emits `timeout` signal on each countdown. Connected via Node dock → Signals tab, same mechanism as collision signals.
+
+**`_ready()` timing**
+Fires the instant a node enters the tree, *during* `add_child()` — before that calling line even finishes. Root cause of every "set this before/after add_child" ordering question this whole project.
 
 **`is_on_floor()`**
-`CharacterBody2D` built-in method. Returns `true` if the body's collision shape is currently resting against a surface Godot's physics considers "floor-facing" (based on collision normal angle, floor detection settings). Used to gate whether gravity should keep accumulating on `velocity.y` — without this check, gravity would just keep adding downward force even while already grounded, which can cause jitter or sinking.
+`CharacterBody2D` built-in — true when resting against floor-facing collision. Gates gravity accumulation to avoid jitter/sinking once grounded.
 
-**`Timer` node + `timeout` signal**
-A node you place in the tree with `wait_time`, `autostart`, and `one_shot` properties. Emits its `timeout` signal on every countdown completion (repeating, since `one_shot` is off). You connect that signal — via the editor's Signals tab — to a handler function, same mechanism as `body_entered`/`area_entered` back on Day 4. Signals are Godot's general-purpose "something happened, react to it" system; you've now used the identical pattern three separate times (collision, group setup, timer) — worth noticing that's not a coincidence, it's the engine's dominant idiom.
+**Collision Layers vs Masks**
+Layer = what a body *is*. Mask = what a body *looks for*. Give `Enemy` a distinct Layer; make sure Player's `Hitbox` Mask includes it, or Day 4's kick detection silently never fires against enemies.
 
-**`@export` on typed values (including enums and arrays)**
-Exposes a script variable in the Inspector panel for that specific node instance, so you can tune values (or, for `Array[Vector2]`, populate a list of spawn points) without touching code, and differently per instance if you have multiples of the same scene.
+**Why no `Spawner` node**
+`main.gd` already owns Player and Enemy instancing directly — a separate `Spawner` node/script would duplicate logic for no gain. `spawner.gd` is dead code; delete it once confirmed unreferenced.
+
+**GDScript top-level restriction (the bug above)**
+A `.gd` file's top level can only contain declarations — `extends`, `var`, `const`, `func`, `signal`, `enum`, `class`. Executable statements (like `add_to_group(...)`) must live inside a function body. This is why that line needs to move into `_ready()`.
+
+## Signal
+### 🎮 Timer signal connection (the piece I skipped)
+
+In your actual build, the `Timer` node was added as a **child of `Main`** (not a separate `Spawner`), so its `timeout` signal connects directly to `main.gd`.
+
+**How that connection was made, mechanically:**
+1. Select the `Timer` node in the Scene dock.
+2. Node dock → **Signals** tab lists every signal that node type can emit — `Timer` shows `timeout()` among them.
+3. Double-clicking `timeout()` opens a "Connect a Signal" dialog. The **target node** you pick there determines which script's `_on_...()` function gets called — you picked `Main`, so the generated function lives in `main.gd`, not in a `Timer`-attached script (Timer nodes don't take their own custom scripts in this setup, they just emit signals for something else to listen to).
+4. Godot auto-generates the function name based on the *signal name* + the *emitting node's name* — since your node is literally named `Timer`, you got `_on_timer_timeout()`. If you'd renamed the node to `SpawnTimer` first, you'd have gotten `_on_spawn_timer_timeout()` instead — the function name isn't arbitrary, it's derived from whatever the node is called at the moment you connect.
+5. This connection is stored **in the `.tscn` scene file itself**, not in the script — that's why you can see it reflected as a small icon/indicator next to `timeout()` in the Signals tab once connected, and why deleting the `Timer` node later would also silently break the connection (the function would remain in `main.gd`, just never called again).
+
+**One thing worth checking, since you have both `enemy.gd`'s internal `idle_timer` (a plain `float` incremented by `delta`, not a `Timer` node) and this actual `Timer` node driving spawns** — do you know which of the two is a real Godot node with a signal, and which is just a variable you're manually counting up yourself? They solve similar-sounding problems ("track time passing") in genuinely different ways — one is engine-managed and signal-driven, the other is code you're rolling by hand inside `_physics_process()`. Worth being able to explain that distinction out loud if asked.
