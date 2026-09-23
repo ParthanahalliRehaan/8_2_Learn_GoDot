@@ -1,0 +1,1 @@
+I just revised all the previous stuff made kick functioning, made snake bite and slowed down the snake!
