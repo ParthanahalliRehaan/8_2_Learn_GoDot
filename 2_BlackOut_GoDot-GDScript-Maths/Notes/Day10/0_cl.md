@@ -72,7 +72,7 @@ Your GDD calls this hallucination — you'll need to decide which of these two s
 
 ## ✅ Build Task — step by step, no code yet
 
-1. **Create `scripts/game_state.gd`.** Register it as an Autoload named `GameState` in Project Settings.
+1. **Create `scripts/game_state.gd`.** Register it as an Autoload named `GameState` in Project Settings.(Exact path is settings->project settings->global,here in hero section you can see autoload,click on it)
 
 2. **Design the data shape first, on paper, before writing a line of GDScript.** Pull up your Day 1 GDD. For each of water/health and hallucination, write down: shared or per-player? If per-player, what's the key (player_id) and what's the value (float for water, or a small dictionary of {water, health} per player)? If shared, is it just one variable?
 

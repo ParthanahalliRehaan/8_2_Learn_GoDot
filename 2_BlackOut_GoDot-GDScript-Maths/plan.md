@@ -3,7 +3,7 @@
 ├── Scope_Estimate.md
 │   ├── Days Allocated (subset of total project days — Blackout ≠ whole timeline)
 │   ├── No. of Scenes (Main, Player, Enemy, UI/HUD, GameOver — count only what BlackOut needs)
-│   ├── Per-Scene Breakdown
+│   ├── Per-Scene Breakdown(Also need to create the State diagram i.e, automata diagram for each mechanism for more clarity!)
 │   │   ├── Scripts (1 script per behavior, not per node)
 │   │   ├── Nodes (CharacterBody2D/Area2D + Collision + ColorRect, nothing decorative)
 │   │   └── Assets (should be ~0 — BlackOut uses ColorRect/Polygon2D, not sprites)
