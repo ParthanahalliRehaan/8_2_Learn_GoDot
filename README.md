@@ -1,13 +1,3 @@
-# WIP!
-**Pending Task:**
-- Complete the Readme.md with constraints as given below!
-## Constraints!
-- Link https://github.com/ParthanahalliRehaan/8_2_Learn_GoDot 
-  with https://github.com/ParthanahalliRehaan/8_1_Creative_Coding
+**This is a ideal folder structure for future games that I make !**, *This just contains notes about !(Art, Animation, Music, UI/UX, Level Design, Marketing & Testing), for !(GDD &  BlackOut) go to the link below!*
 
-  **Reason:**
-  - As Readme.md is a index, It must have links for notes of creative coding as well linked to it!
-- **Structure:**
-  - Title, Image of completed game.
-  - Link to notes of how to make this game!
-
+*for detailed notes about creative coding go to [8_1_Creative_Coding](https://github.com/ParthanahalliRehaan/8_1_Creative_Coding)*
