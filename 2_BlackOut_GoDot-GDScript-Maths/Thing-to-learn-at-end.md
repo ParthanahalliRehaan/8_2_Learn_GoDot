@@ -7,3 +7,5 @@ Two separate things happen, and conflating them is where confusion usually start
 - **Import cache (`.godot/` folder):** textures, sounds, etc. get imported into engine-native formats once, cached, and reused — this is why your first run after adding a new asset is slower than subsequent runs.
 
 So the sequence for a scene is: parse `.tscn` text → build a blueprint (see Doubt 2) → when you actually need it in the tree, walk that blueprint and create real `Node` objects with their scripts attached and properties set.
+
+**Thing 2 - Make a mod!**
