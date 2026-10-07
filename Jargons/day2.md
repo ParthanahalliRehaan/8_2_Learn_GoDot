@@ -1,54 +1,71 @@
-# Others,
-# 1. Whats patreon?,Why Pinterest?, For art references, Why LoSpec.com?, For palette reference!,What is itch.io?, Conducts jams, can publish games!, What is difference between patreon & Itch?, Patreon is similar to YouTube/Instagram!, Where as Itch is publishing indie games and conducting/attending Jams(Art or game or other!)
-    - Patreon is a membership platform where fans support(financial) creators in exchange for exclusive content, perks.
-    - youtube/instagram can't provide, instead dev needs other sources like patreon(devlog: videos, ads, sponsorships, or channel memberships).
-# 2. Creative work license Vs Software license
-**Creative Commons (CC) licenses are designed for *content* like tutorials, videos, images, and text, while MIT is an *open-source software license* for code. The key difference is that CC governs how you can reuse creative works, and MIT governs how you can use, modify, and distribute software.**  
+# D1 : 🎨 Platforms & Tools
+- **Patreon**  
+  - Membership platform for creators.  
+  - Fans support financially in exchange for exclusive content/perks.  
+  - Similar to YouTube/Instagram in terms of creator-fan interaction, but focused on monetization.  
+  - Useful for devlogs, behind-the-scenes videos, sponsorships, or channel memberships.
+
+- **Pinterest**  
+  - Visual discovery platform.  
+  - Great for collecting and browsing **art references**.
+
+- **LoSpec.com**  
+  - Resource hub for pixel artists.  
+  - Provides **palette references** and community tools.
+
+- **itch.io**  
+  - Platform for publishing indie games.  
+  - Hosts **game jams** (collaborative events for art, games, or other creative projects).  
+  - Difference from Patreon:  
+    - Patreon = ongoing creator support (like YouTube/Instagram but monetized).  
+    - itch.io = publishing/distributing indie games + community events.
 
 ---
 
-## 🔑 Core Differences Between CC and MIT
+# D2 : 📜 Licenses: Creative vs Software
+### Creative Commons (CC) vs MIT License
 
 | Aspect | Creative Commons (CC) | MIT License |
 |--------|------------------------|-------------|
-| **Purpose** | For creative works: text, videos, images, music, tutorials | For software/code |
-| **Permissions** | Varies by type: CC-BY (attribution), CC-BY-SA (share-alike), CC-NC (non-commercial), CC-ND (no derivatives) | Very permissive: allows use, modification, distribution, even commercial use |
-| **Attribution** | Usually required (e.g., CC-BY means you must credit the creator) | Required: keep copyright notice and license text in copies |
-| **Commercial Use** | Depends on license (CC-NC forbids it, CC-BY allows it) | Always allowed |
-| **Modification** | Depends: CC-ND forbids changes, CC-BY-SA requires sharing under same license | Always allowed, no restrictions |
-| **Scope** | Content/media, not software (CC itself advises against using CC for code) | Software/code, including source and binaries |
-| **Legal Coverage** | No patent terms, no source code distribution rules | Covers source code distribution, includes implicit patent rights (in some OSI licenses, not MIT) |
+| **Purpose** | Creative works (text, videos, images, tutorials) | Software/code |
+| **Permissions** | Varies by type (BY, SA, NC, ND) | Very permissive, allows use/modification/distribution |
+| **Attribution** | Usually required | Required (keep copyright + license notice) |
+| **Commercial Use** | Depends (NC forbids, BY allows) | Always allowed |
+| **Modification** | Depends (ND forbids, SA requires same license) | Always allowed |
+| **Scope** | Content/media only | Software/code (source + binaries) |
+| **Legal Coverage** | No patent terms | Covers source distribution, implicit patent rights |
+
+**Key Notes:**
+- CC is **not meant for software** (better for assets like art, music, docs).  
+- MIT is **extremely permissive** — others can use commercially, but must keep attribution.  
+- If mixing: respect both licenses (e.g., CC art + MIT code).
 
 ---
 
-## ⚖️ What You Can Do Under Each
+# D3 : 🎮 Game Development Terms
+- **GDD (Game Design Document)**  
+  - Blueprint for a game’s mechanics, story, art, and technical details.  
+  - Used by teams to align vision and execution.
 
-- **With CC License Content (like the YouTube tutorial):**
-  - ✅ Watch, learn, and reuse ideas.
-  - ✅ Credit the creator if required (CC-BY).
-  - ❌ Don’t use commercially if it’s CC-NC.
-  - ❌ Don’t modify if it’s CC-ND.
-  - ✅ Share-alike if CC-BY-SA (your derivative must also be CC-BY-SA).
-
-- **With MIT Licensed Code:**
-  - ✅ Use it in personal or commercial projects.
-  - ✅ Modify and redistribute freely.
-  - ✅ Combine with other licenses.
-  - ✅ Sell products based on it.
-  - ✅ Keep the copyright + license notice intact.
+- **GDC (Game Developers Conference)**  
+  - Annual industry event.  
+  - Networking, talks, and showcases for developers worldwide.
 
 ---
 
-## Risks & Considerations
-- **CC is not meant for software.** If you see CC on code, it’s a bit of a mismatch. CC themselves recommend using MIT, GPL, or Apache for code. CC is fine for assets (art, music, documentation).
-- **MIT is extremely permissive.** Others can take your code, use it in commercial products, and not give back — but they must keep your copyright notice.
-- **Mixing licenses:** If you use CC-licensed assets (like images or sounds) in your MIT project, you must respect both licenses simultaneously.
+# D4 : 🏆 Game Industry Labels
+- **AAA Games**  
+  - High-budget, large studio productions.  
+  - Examples: Call of Duty, Assassin’s Creed.
 
-# 3. Whats GDD, GDC(Game developers Conference)?
+- **AA Games**  
+  - Mid-budget titles, smaller studios.  
+  - Less polish but ambitious scope.
 
-# 4. Whats AAA, AA, AAAA, etc?
-- **AAA Games**: Mid-budget titles, often from smaller studios, with less polish but still ambitious.
+- **Indie Games**  
+  - Independent developers, small budgets.  
+  - Often highly creative (e.g., *Hades*, *Celeste*, *Stardew Valley*).
 
-- **Indie Games**: Created by independent developers, usually with smaller budgets but often highly creative (Hades, Celeste, Stardew Valley).
-
-- **AAAA Games**: A newer term some studios use for even bigger projects, aiming to surpass traditional AAA standards (e.g., Ubisoft and Microsoft have used this label).
+- **AAAA Games**  
+  - Emerging term for ultra-high-budget projects.  
+  - Studios like Ubisoft/Microsoft use this label for next-gen scale.

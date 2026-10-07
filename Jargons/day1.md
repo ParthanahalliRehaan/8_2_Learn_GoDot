@@ -1,10 +1,14 @@
-# Doubt 1: **What should be the folder structure**, For any 2D game the structure should be as below,
-  - 1 GDD
-  - 2 BlackOut(Beta version of game without visuals)
-  - 3 Art Animation & Music
-  - 4 Level Design & UI UX
-  - 5 Testing & Marketing
-# History of Jams!
+# Doubt 1: **What should be the folder structure**, 
+  - **Answer**: For any 2D game the structure should be as below,
+    - 1 GDD
+    - 2 BlackOut(Beta version of game without visuals)
+    - 3 Art Animation & Music
+    - 4 Level Design & UI UX
+    - 5 Testing & Marketing
+
+---
+
+# Doubt 2: History of Jams!
 ## 🌐 Key Game Jam Platforms (Online vs. Offline)
 ### 🧩 Indie Game Jam (Historical)  
 - **Founded**: March 2002 by Chris Hecker & Sean Barrett.  

@@ -1,4 +1,4 @@
-**Doubt 1 — How does Godot load and compile scenes/nodes?**
+**Thing 1 — How does Godot load and compile scenes/nodes?**
 
 Two separate things happen, and conflating them is where confusion usually starts:
 
